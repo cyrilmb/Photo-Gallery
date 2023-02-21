@@ -2,7 +2,7 @@ import './GalleryItem.css';
 import { useState } from 'react';
 
 function GalleryItem({ item, addLike }) {
-    console.log(item.description);
+    console.log(item.likes);
 
     const handleLikeClick = () => {
         console.log('i like clicking like buttons');
@@ -11,23 +11,42 @@ function GalleryItem({ item, addLike }) {
 
     };
 
+    const [toggle, setToggle] = useState(false);
+
+    let picOrText;
+
+    if (toggle == true) {
+        picOrText = <p className='textbox'> {item.description}</p>;
+    } else if (toggle == false) {
+        picOrText = <img className='image' src={item.path} alt={item.description} />;
+    }
+
+    console.log('Toggling!', toggle);
+    const toggleClick = () => {
+        console.log('Toggling!', toggle);
+
+        setToggle(!toggle);
+
+
+    };
+
     return (
-        <div className="gallery-item">
-            <div className='row flip-box'>
-                <div className='column flip-box-inner'>
-                    <div className='flip-box-front'>
-                        <img className='image' src={item.path} />
-                    </div>
-                    <div className="flip-box-back">
-                        <p>{item.description}</p>
+        <>
+            {console.log({ picOrText })}
+            <div className='gallery-item'>
+                <div className='image-box'>
+                    <div onClick={toggleClick}>
+                        {picOrText}
                     </div>
                 </div>
-            </div>
-            <div>
-                <button onClick={handleLikeClick} className="button-like" role="button">How much like {item.likes}</button>
-            </div>
 
-        </div>
+                <div>
+                    <button onClick={handleLikeClick} className="button-like" role="button">How much like {item.likes}</button>
+                </div>
+
+            </div>
+        </>
+
     );
 }
 
